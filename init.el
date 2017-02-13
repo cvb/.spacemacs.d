@@ -18,8 +18,9 @@
      yaml
      html
      python
-     auto-completion
-     (haskell :variables haskell-completion-backend 'intero)
+     ;; (auto-completion)
+     (haskell
+      :variables haskell-completion-backend 'ghc-mod)
      scala
      javascript
      markdown
@@ -42,7 +43,10 @@
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages
-   '(rainbow-delimiters org-bullets)
+   '(rainbow-delimiters
+     org-bullets
+     flycheck
+     keyfreq)
    dotspacemacs-additional-packages '(nix-sandbox direnv)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
@@ -61,7 +65,6 @@ before layers configuration."
    dotspacemacs-highlight-delimiters 'all
    dotspacemacs-startup-lists '(recents projects)
 
-   dotspacemacs-additional-packages '()
    ;; Specify the startup banner. If the value is an integer then the
    ;; text banner with the corresponding index is used, if the value is
    ;; `random' then the banner is chosen randomly among the available banners,
@@ -167,6 +170,10 @@ before layers configuration."
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
   (use-package nix-sandbox)
+  ;; (use-package direnv :demand t
+  ;;   :config
+  ;;   (add-hook 'find-file-hook 'direnv-load-environment)
+  ;;   (add-hook 'buffer-list-update-hook 'direnv-load-environment))
   (let ((default-directory  "~/.spacemacs.d/src"))
     (normal-top-level-add-to-load-path '("."))
     (normal-top-level-add-subdirs-to-load-path))
