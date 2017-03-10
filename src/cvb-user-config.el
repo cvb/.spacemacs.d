@@ -63,6 +63,10 @@
 
   (add-hook 'haskell-mode-hook 'my-ghc-mod-setup)
 
+  (setq scroll-conservatively 10
+        scroll-margin 10
+        scroll-preserve-screen-position 't)
+
   (advice-add 'executable-find  :around #'executable-find-try-nix))
 
 (defun executable-find-try-nix (orig command)
