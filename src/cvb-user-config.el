@@ -1,6 +1,7 @@
 (defun cvb-user-init ()
   (require 'cvb-helm)
   (require 'cvb-org)
+  (require 'cvb-haskell)
 
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'super)
@@ -45,29 +46,39 @@
     (setq evil-this-type (if (eolp) 'exclusive 'inclusive)))
   (define-key evil-visual-state-map "$" 'evil-last-non-blank)
 
-  (eval-after-load 'haskell-mode
-    '(progn
-       (advice-add 'intero-make-options-list
-                   :around #'intero-with-better-print)
-
-       (setq haskell-process-wrapper-function
-             (lambda (argv) (append (list "nix-shell" "-I" "." "--command" )
-                                    (list (mapconcat 'identity argv " ")))))
-
-       (setq flycheck-command-wrapper-function
-             (lambda (command)
-               (apply 'nix-shell-command (nix-current-sandbox) command))
-             flycheck-executable-find
-             (lambda (cmd)
-               (nix-executable-find (nix-current-sandbox) cmd)))))
-
-  (add-hook 'haskell-mode-hook 'my-ghc-mod-setup)
+  (global-hl-line-mode -1)
 
   (setq scroll-conservatively 10
         scroll-margin 10
         scroll-preserve-screen-position 't)
 
-  (advice-add 'executable-find  :around #'executable-find-try-nix))
+  (advice-add 'executable-find  :around #'executable-find-try-nix)
+
+  (electric-indent-mode -1)
+  (add-to-list 'spacemacs-indent-sensitive-modes 'elixir-mode)
+
+  (add-hook 'elixir-mode-hook
+            (lambda ()
+              (setq-local tab-always-indent 't)
+              ;; (setq-local indent-line-function #'indent-relative-line)
+              ))
+
+  ;; (setq dante-debug (list 'inputs 'outputs 'responses 'command-line))
+  )
+
+(defun indent-relative-line ()
+  (interactive)
+  (cond ((eq (line-beginning-position) (point))
+         (indent-relative))
+        ((current-line-empty-p)
+         (indent-relative))
+        (t
+         (save-excursion
+           (back-to-indentation)
+           (indent-relative)))))
+
+(defun current-line-empty-p ()
+  (string-match-p "^\\s-*$" (thing-at-point 'line)))
 
 (defun executable-find-try-nix (orig command)
   (let ((sb (nix-current-sandbox)))
@@ -75,20 +86,5 @@
         (let ((exec-path (nix-exec-path sb)))
           (and exec-path (funcall orig command)))
       (funcall orig command))))
-
-(defun my-ghc-mod-setup ()
-  (set (make-local-variable 'my-ghc-mod) (nix-executable-find (nix-current-sandbox) "ghc-mod"))
-  (message "local ghc-mod is: %S" my-ghc-mod)
-  (set (make-local-variable 'ghc-module-command) my-ghc-mod)
-  (set (make-local-variable 'ghc-command) my-ghc-mod))
-
-(defun intero-with-better-print (orig-fun &rest args)
-  (let* ((newlst
-          (append
-           (list "--ghci-options" "-interactive-print=Text.Show.Unicode.uprint"
-                 "--package" "unicode-show")
-           (car args)))
-         (res (apply orig-fun (append (list newlst) (cdr args)))))
-    res))
 
 (provide 'cvb-user-config)
