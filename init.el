@@ -12,40 +12,38 @@
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
-   '(git
+   '(
+     git
+     elixir
      ruby
-     ruby-on-rails
      yaml
      html
      python
-     ;; (auto-completion)
+     (auto-completion
+      :variables
+      auto-completion-enable-help-tooltip 'manual
+      auto-completion-enable-sort-by-usage t)
+
      (haskell
-      :variables haskell-completion-backend 'ghc-mod)
-     scala
+      :variables haskell-completion-backend 'ghci)
      javascript
      markdown
      clojure
      docker
      org
      regexp
-     shell
      themes-megapack
      emacs-lisp
-     elixir
-     erlang
      custom
      nixos
-     ansible
-     ipython-notebook
      autohotkey
      purescript
-     ;; mu4e
+     octave
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages
    '(rainbow-delimiters
      org-bullets
-     flycheck
      keyfreq)
    dotspacemacs-additional-packages '(nix-sandbox direnv)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
