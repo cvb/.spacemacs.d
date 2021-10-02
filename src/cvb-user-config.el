@@ -3,9 +3,6 @@
   (require 'cvb-org)
   (require 'cvb-haskell)
 
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier 'super)
-
   (setq x-select-enable-clipboard t)
   (setq x-select-enable-primary t)
 
