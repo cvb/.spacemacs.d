@@ -13,12 +13,16 @@
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     lua
+     rust
+     sql
      git
      elixir
      ruby
      yaml
      html
      python
+     ipython-notebook
      (auto-completion
       :variables
       auto-completion-enable-help-tooltip 'manual
