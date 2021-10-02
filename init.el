@@ -86,10 +86,10 @@ before layers configuration."
    ;; :width normal
    ;; :powerline-scale 1.1)
    ;; "-xos4-Terminus-bold-normal-normal-*-16-*-*-*-c-80-iso10646-1"
-   dotspacemacs-default-font '("Ubuntu Mono"
-                               :size 26
-                               :weight normal
-                               :width normal
+   dotspacemacs-default-font '("Liberation Mono"
+                               :size 18
+                               :weight regular
+                               ;; :width normal
                                :powerline-scale 0.3)
 
    ;; The leader key
