@@ -13,7 +13,7 @@
   (setq fci-rule-use-dashes t)
   (setq fci-dash-pattern 0.3)
   (setq fci-rule-color "#475662")
-  (add-hook 'prog-mode-hook 'turn-on-fci-mode)
+  ;; (add-hook 'prog-mode-hook 'turn-on-fci-mode)
 
   (setenv "BOOT_JVM_OPTIONS" "-XX:-OmitStackTraceInFastThrow")
   (global-visual-line-mode)
